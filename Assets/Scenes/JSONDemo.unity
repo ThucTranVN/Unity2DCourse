@@ -1616,6 +1616,17 @@ MonoBehaviour:
   playerName: {fileID: 162493165}
   playerLevel: {fileID: 2005095470}
   playerGold: {fileID: 521155209}
+  listPlayer:
+    playerDatas:
+    - Name: Cat
+      Level: 1
+      Gold: 100
+    - Name: Dog
+      Level: 2
+      Gold: 200
+    - Name: Cow
+      Level: 10
+      Gold: 1000
 --- !u!4 &2090130948
 Transform:
   m_ObjectHideFlags: 0

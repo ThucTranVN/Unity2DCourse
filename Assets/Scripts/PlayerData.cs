@@ -7,3 +7,9 @@ public class PlayerData
     public int Level;
     public int Gold;
 }
+
+[Serializable]
+public class ListPlayer
+{
+    public PlayerData[] playerDatas;
+}

@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 618351850}
   - component: {fileID: 618351849}
   - component: {fileID: 618351848}
+  - component: {fileID: 618351851}
   m_Layer: 6
   m_Name: Terrain
   m_TagString: Untagged
@@ -2711,7 +2712,7 @@ CompositeCollider2D:
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
-  m_UsedByEffector: 0
+  m_UsedByEffector: 1
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   m_GeometryType: 0
@@ -2805,6 +2806,25 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!251 &618351851
+PlatformEffector2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 618351844}
+  m_Enabled: 1
+  m_UseColliderMask: 1
+  m_ColliderMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_RotationalOffset: 0
+  m_UseOneWay: 0
+  m_UseOneWayGrouping: 0
+  m_SurfaceArc: 180
+  m_UseSideFriction: 0
+  m_UseSideBounce: 0
+  m_SideArc: 1
 --- !u!1 &1295588773
 GameObject:
   m_ObjectHideFlags: 0
@@ -11007,7 +11027,10 @@ MonoBehaviour:
   spriteRenderer: {fileID: 2127023733}
   animator: {fileID: 2127023738}
   rigidBody: {fileID: 2127023736}
-  boxCollider2D: {fileID: 0}
+  boxCollider2D: {fileID: 2127023735}
+  jumpableGround:
+    serializedVersion: 2
+    m_Bits: 64
   playerSpeed: 10
   jumpHeight: 14
 --- !u!95 &2127023738

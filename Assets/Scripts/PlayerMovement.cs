@@ -15,6 +15,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private BoxCollider2D boxCollider2D;
     [SerializeField]
+    private AudioSource jumpAudio;
+    [SerializeField]
     private LayerMask jumpableGround;
     [SerializeField]
     private float playerSpeed;
@@ -51,6 +53,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (Input.GetButtonDown("Jump") && IsGrounded())
         {
+            jumpAudio.Play();
             rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpHeight);
         }
     }

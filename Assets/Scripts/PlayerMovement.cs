@@ -15,46 +15,100 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private BoxCollider2D boxCollider2D;
     [SerializeField]
-    private AudioSource jumpAudio;
-    [SerializeField]
     private LayerMask jumpableGround;
+    [SerializeField]
+    private TrailRenderer trailRenderer;
     [SerializeField]
     private float playerSpeed;
     [SerializeField]
     private float jumpHeight;
     private float dirX;
+    private bool doubleJump;
+
+    private bool canDash = true;
+    private bool isDashing;
+    private float dashingPower = 24f;
+    private float dashingTime = 0.2f;
+    private float dashingCooldown = 1f;
 
     private enum MovementState { Idle, Running, Jumping, Falling }
     private MovementState movementState;
-    void Start()
+
+    private void Awake()
     {
         rigidBody = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         boxCollider2D = GetComponent<BoxCollider2D>();
+        trailRenderer = GetComponent<TrailRenderer>();
+    }
+
+    void Start()
+    {
+        trailRenderer.emitting = false;
     }
 
     void Update()
     {
-        Moving();
+        if (isDashing)
+        {
+            return;
+        }
+
+        dirX = Input.GetAxisRaw("Horizontal");
 
         Jumping();
 
         UpdateAnimations();
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canDash)
+        {
+            StartCoroutine(Dash());
+            if (AudioManager.HasInstance)
+            {
+                AudioManager.Instance.PlaySE(AUDIO.SE_DASH);
+            }
+        }
+
+    }
+
+    private void FixedUpdate()
+    {
+        if (isDashing)
+        {
+            return;
+        }
+
+        Moving();
     }
 
     private void Moving()
     {
-        dirX = Input.GetAxisRaw("Horizontal");
-        rigidBody.velocity = new Vector2(dirX * playerSpeed, rigidBody.velocity.y);
+        if (rigidBody.bodyType != RigidbodyType2D.Static)
+        {
+            rigidBody.velocity = new Vector2(dirX * playerSpeed, rigidBody.velocity.y);
+        }
     }
 
     private void Jumping()
     {
-        if (Input.GetButtonDown("Jump") && IsGrounded())
+        if (IsGrounded() && !Input.GetButton("Jump"))
         {
-            jumpAudio.Play();
-            rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpHeight);
+            doubleJump = false;
+        }
+
+        if (Input.GetButtonDown("Jump"))
+        {
+            if(IsGrounded() || doubleJump)
+            {
+                if (AudioManager.HasInstance)
+                {
+                    AudioManager.Instance.PlaySE(AUDIO.SE_JUMP);
+                }
+                rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpHeight);
+                doubleJump = !doubleJump;
+                animator.SetBool("DoubleJump", !doubleJump);
+            }
         }
     }
 
@@ -90,5 +144,21 @@ public class PlayerMovement : MonoBehaviour
     private bool IsGrounded()
     {
         return Physics2D.BoxCast(boxCollider2D.bounds.center, boxCollider2D.bounds.size, 0f, Vector2.down, 0.1f, jumpableGround);
+    }
+
+    private IEnumerator Dash()
+    {
+        canDash = false;
+        isDashing = true;
+        float originalGravity = rigidBody.gravityScale;
+        rigidBody.gravityScale = 0f;
+        rigidBody.velocity = new Vector2(dirX * dashingPower, 0f);
+        trailRenderer.emitting = true;
+        yield return new WaitForSeconds(dashingTime);
+        trailRenderer.emitting = false;
+        rigidBody.gravityScale = originalGravity;
+        isDashing = false;
+        yield return new WaitForSeconds(dashingCooldown);
+        canDash = true;
     }
 }

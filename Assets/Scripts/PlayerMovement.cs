@@ -19,9 +19,20 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private TrailRenderer trailRenderer;
     [SerializeField]
+    private ParticleSystem moveEffect;
+    [SerializeField]
+    private ParticleSystem onGroundEffect;
+    [SerializeField]
     private float playerSpeed;
     [SerializeField]
     private float jumpHeight;
+    [Range(0,10)]
+    [SerializeField]
+    private int occurAfterVelocity;
+    [Range(0, 0.2f)]
+    [SerializeField]
+    private float dustFormationPeriod;
+    private float counter;
     private float dirX;
     private bool doubleJump;
 
@@ -53,6 +64,16 @@ public class PlayerMovement : MonoBehaviour
         if (isDashing)
         {
             return;
+        }
+
+        counter += Time.deltaTime;
+        if(IsGrounded() && Mathf.Abs(rigidBody.velocity.x) > occurAfterVelocity)
+        {
+            if(counter > dustFormationPeriod)
+            {
+                moveEffect.Play();
+                counter = 0;
+            }
         }
 
         dirX = Input.GetAxisRaw("Horizontal");
@@ -99,7 +120,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (Input.GetButtonDown("Jump"))
         {
-            if(IsGrounded() || doubleJump)
+            if (IsGrounded() || doubleJump)
             {
                 if (AudioManager.HasInstance)
                 {
@@ -108,6 +129,10 @@ public class PlayerMovement : MonoBehaviour
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpHeight);
                 doubleJump = !doubleJump;
                 animator.SetBool("DoubleJump", !doubleJump);
+                if (!doubleJump)
+                {
+                    onGroundEffect.Play();
+                }
             }
         }
     }

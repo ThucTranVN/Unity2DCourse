@@ -5,6 +5,14 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : BaseManager<GameManager>
 {
+    private int cherries = 0;
+    public int Cherries => cherries;
+
+    public void UpdateCherries(int v)
+    {
+        cherries = v;
+    }
+
     public void StartGame()
     {
         ChangeScene("Level1");

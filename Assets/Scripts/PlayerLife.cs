@@ -7,6 +7,8 @@ public class PlayerLife : MonoBehaviour
 {
     private Rigidbody2D rb;
     private Animator animator;
+    [SerializeField]
+    private Transform playerSpawnPoint;
 
     void Start()
     {
@@ -34,6 +36,8 @@ public class PlayerLife : MonoBehaviour
 
     private void Restart()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        this.transform.position = playerSpawnPoint.position;
+        rb.bodyType = RigidbodyType2D.Dynamic;
+        animator.Rebind();
     }
 }

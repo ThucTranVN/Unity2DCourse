@@ -21,7 +21,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     private ParticleSystem moveEffect;
     [SerializeField]
-    private ParticleSystem onGroundEffect;
+    private ParticleSystem jumpEffect;
     [SerializeField]
     private float playerSpeed;
     [SerializeField]
@@ -34,7 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private float dustFormationPeriod;
     private float counter;
     private float dirX;
-    private bool doubleJump;
+    private bool isNotDoubleJump;
 
     private bool canDash = true;
     private bool isDashing;
@@ -115,23 +115,23 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded() && !Input.GetButton("Jump"))
         {
-            doubleJump = false;
+            isNotDoubleJump = false;
         }
 
         if (Input.GetButtonDown("Jump"))
         {
-            if (IsGrounded() || doubleJump)
+            if (IsGrounded() || isNotDoubleJump)
             {
                 if (AudioManager.HasInstance)
                 {
                     AudioManager.Instance.PlaySE(AUDIO.SE_JUMP);
                 }
                 rigidBody.velocity = new Vector2(rigidBody.velocity.x, jumpHeight);
-                doubleJump = !doubleJump;
-                animator.SetBool("DoubleJump", !doubleJump);
-                if (!doubleJump)
+                isNotDoubleJump = !isNotDoubleJump;
+                animator.SetBool("DoubleJump", !isNotDoubleJump);
+                if (!isNotDoubleJump)
                 {
-                    onGroundEffect.Play();
+                    jumpEffect.Play();
                 }
             }
         }

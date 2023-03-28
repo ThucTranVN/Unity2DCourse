@@ -4,17 +4,18 @@ using UnityEngine;
 
 public class MenuPanel : MonoBehaviour
 {
+    [SerializeField]
+    GameObject howToPlayBtn;
+
+    [SerializeField]
+    GameObject howToPlayImage;
+
     public void OnStartButtonClick()
     {
-        if (GameManager.HasInstance)
-        {
-            GameManager.Instance.StartGame();
-        }
-
         if (UIManager.HasInstance)
         {
             UIManager.Instance.ActiveMenuPanel(false);
-            UIManager.Instance.ActiveGamePanel(true);
+            UIManager.Instance.ActiveLoadingPanel(true);
         }
 
         if (AudioManager.HasInstance)
@@ -29,5 +30,17 @@ public class MenuPanel : MonoBehaviour
         {
             UIManager.Instance.ActiveSettingPanel(true);
         }
+    }
+
+    public void OnHowToPlayButtonClick()
+    {
+        howToPlayImage.SetActive(true);
+        howToPlayBtn.SetActive(false);
+    }
+
+    public void OnHowToPlayButtonImgClick()
+    {
+        howToPlayImage.SetActive(false);
+        howToPlayBtn.SetActive(true);
     }
 }

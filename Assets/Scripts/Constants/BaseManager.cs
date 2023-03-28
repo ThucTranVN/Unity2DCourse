@@ -47,11 +47,10 @@ public class BaseManager<T> : MonoBehaviour where T : BaseManager<T>
         }
         else if (instance == this)
         {
-            DontDestroyOnLoad(this);
             return true;
         }
 
-        Object.Destroy(this);
+        Object.Destroy(this.gameObject);
         return false;
     }
 }

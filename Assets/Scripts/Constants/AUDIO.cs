@@ -10,5 +10,6 @@
 	  public const string SE_DEATH = "death";
 	  public const string SE_FINISH = "finish";
 	  public const string SE_JUMP = "jump";
+	  public const string SE_LOSE = "lose";
 	  public const string SE_TEST = "test";
 }

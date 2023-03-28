@@ -49,6 +49,14 @@ public class SettingPanel : MonoBehaviour
         {
             UIManager.Instance.ActiveSettingPanel(false);
         }
+
+        if (GameManager.HasInstance)
+        {
+            if (GameManager.Instance.IsPlaying == false && !UIManager.Instance.MenuPanel.gameObject.activeSelf)
+            {
+                UIManager.Instance.ActivePausePanel(true);
+            }
+        }
     }
 
     public void OnSubmitButtonClick()
@@ -62,6 +70,14 @@ public class SettingPanel : MonoBehaviour
         if (UIManager.HasInstance)
         {
             UIManager.Instance.ActiveSettingPanel(false);
+        }
+
+        if (GameManager.HasInstance)
+        {
+            if (GameManager.Instance.IsPlaying == false && !UIManager.Instance.MenuPanel.gameObject.activeSelf)
+            {
+                UIManager.Instance.ActivePausePanel(true);
+            }
         }
     }
 }

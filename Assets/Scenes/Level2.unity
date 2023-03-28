@@ -43039,6 +43039,10 @@ PrefabInstance:
       propertyPath: jumpAudio
       value: 
       objectReference: {fileID: 0}
+    - target: {fileID: 4422950997014706705, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
+      propertyPath: jumpEffect
+      value: 
+      objectReference: {fileID: 4422950994980287593}
     - target: {fileID: 4422950997014706707, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
       propertyPath: collectAudio
       value: 
@@ -43105,6 +43109,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
+--- !u!198 &4422950994980287593 stripped
+ParticleSystem:
+  m_CorrespondingSourceObject: {fileID: 20007829, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
+  m_PrefabInstance: {fileID: 4422950994980287592}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4500641464676547810
 PrefabInstance:
   m_ObjectHideFlags: 0

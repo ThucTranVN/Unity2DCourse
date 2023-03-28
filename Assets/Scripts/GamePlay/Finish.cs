@@ -16,12 +16,27 @@ public class Finish : MonoBehaviour
                 AudioManager.Instance.PlaySE(AUDIO.SE_FINISH);
             }
             levelComplete = true;
-            Invoke("CompleteLevel",2f);
+            Invoke("CompleteLevel",1f);
         }
     }
 
     private void CompleteLevel()
     {
+        if (SceneManager.GetActiveScene().name.Equals("Level2"))
+        {
+            if (UIManager.HasInstance)
+            {
+                Time.timeScale = 0f;
+                UIManager.Instance.ActiveVictoryPanel(true);
+                return;
+            }
+        }
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        if (UIManager.HasInstance && AudioManager.HasInstance)
+        {
+            UIManager.Instance.GamePanel.SetTimeRemain(240);
+            AudioManager.Instance.PlayBGM(AUDIO.BGM_BGM_04);
+        }
     }
 }

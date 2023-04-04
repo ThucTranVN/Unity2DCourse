@@ -34,13 +34,13 @@ public class UIManager : BaseManager<UIManager>
 
     private void Start()
     {
-        menuPanel.gameObject.SetActive(true);
-        settingPanel.gameObject.SetActive(false);
-        gamePanel.gameObject.SetActive(false);
-        pausePanel.gameObject.SetActive(false);
-        victoryPanel.gameObject.SetActive(false);
-        losePanel.gameObject.SetActive(false);
-        loadingPanel.gameObject.SetActive(false);
+        ActiveMenuPanel(true);
+        ActiveSettingPanel(false);
+        ActiveGamePanel(false);
+        ActivePausePanel(false);
+        ActiveVictoryPanel(false);
+        ActiveLosePanel(false);
+        ActiveLoadingPanel(false);
     }
 
     private void Update()

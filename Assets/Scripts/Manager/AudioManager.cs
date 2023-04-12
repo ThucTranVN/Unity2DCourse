@@ -123,36 +123,24 @@ public class AudioManager : BaseManager<AudioManager>
 	public void ChangeBGMVolume(float BGMVolume)
 	{
 		AttachBGMSource.volume = BGMVolume;
-        if (ObscuredPrefs.HasKey(CONST.BGM_VOLUME_KEY))
-        {
-			ObscuredPrefs.SetFloat(CONST.BGM_VOLUME_KEY, BGMVolume);
-		}
+		ObscuredPrefs.SetFloat(CONST.BGM_VOLUME_KEY, BGMVolume);
 	}
 
 	public void ChangeSEVolume(float SEVolume)
 	{
 		AttachSESource.volume = SEVolume;
-		if (ObscuredPrefs.HasKey(CONST.SE_VOLUME_KEY))
-        {
-			ObscuredPrefs.SetFloat(CONST.SE_VOLUME_KEY, SEVolume);
-		}	
+		ObscuredPrefs.SetFloat(CONST.SE_VOLUME_KEY, SEVolume);
 	}
 
 	public void MuteBGM(bool isMute)
     {
 		AttachBGMSource.mute = isMute;
-        if (ObscuredPrefs.HasKey(CONST.BGM_MUTE_KEY))
-		{
-			ObscuredPrefs.SetBool(CONST.BGM_MUTE_KEY, isMute);
-		}
+		ObscuredPrefs.SetBool(CONST.BGM_MUTE_KEY, isMute);
 	}
 
 	public void MuteSE(bool isMute)
 	{
 		AttachSESource.mute = isMute;
-		if (ObscuredPrefs.HasKey(CONST.SE_MUTE_KEY))
-        {
-			ObscuredPrefs.SetBool(CONST.SE_MUTE_KEY, isMute);
-		}
+		ObscuredPrefs.SetBool(CONST.SE_MUTE_KEY, isMute);
 	}
 }

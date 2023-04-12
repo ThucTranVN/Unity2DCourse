@@ -1,19 +1,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using CodeStage.AntiCheat.Storage;
 
 public class AudioManager : BaseManager<AudioManager>
 {
-	//key and default value for saving volume
-	private const string BGM_VOLUME_KEY = "BGM_VOLUME_KEY";
-	private const string SE_VOLUME_KEY = "SE_VOLUME_KEY";
-	private const float BGM_VOLUME_DEFULT = 0.2f;
-	private const float SE_VOLUME_DEFULT = 1.0f;
-
-	//Time it takes for the background music to fade
-	public const float BGM_FADE_SPEED_RATE_HIGH = 0.9f;
-	public const float BGM_FADE_SPEED_RATE_LOW = 0.3f;
-	private float bgmFadeSpeedRate = BGM_FADE_SPEED_RATE_HIGH;
+	private float bgmFadeSpeedRate = CONST.BGM_FADE_SPEED_RATE_HIGH;
 
 	//Next BGM name, SE name
 	private string nextBGMName;
@@ -51,8 +43,10 @@ public class AudioManager : BaseManager<AudioManager>
 
     private void Start()
 	{
-		AttachBGMSource.volume = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, BGM_VOLUME_DEFULT);
-		AttachSESource.volume = PlayerPrefs.GetFloat(SE_VOLUME_KEY, SE_VOLUME_DEFULT);
+		AttachBGMSource.volume = ObscuredPrefs.GetFloat(CONST.BGM_VOLUME_KEY, CONST.BGM_VOLUME_DEFAULT);
+		AttachSESource.volume = ObscuredPrefs.GetFloat(CONST.SE_VOLUME_KEY, CONST.SE_VOLUME_DEFAULT);
+		AttachBGMSource.mute = ObscuredPrefs.GetBool(CONST.BGM_MUTE_KEY, CONST.BGM_MUTE_DEFAULT);
+		AttachSESource.mute = ObscuredPrefs.GetBool(CONST.SE_MUTE_KEY, CONST.SE_MUTE_DEFAULT);
 	}
 
 	public void PlaySE(string seName, float delay = 0.0f)
@@ -72,7 +66,7 @@ public class AudioManager : BaseManager<AudioManager>
 		AttachSESource.PlayOneShot(seDic[nextSEName] as AudioClip);
 	}
 
-	public void PlayBGM(string bgmName, float fadeSpeedRate = BGM_FADE_SPEED_RATE_HIGH)
+	public void PlayBGM(string bgmName, float fadeSpeedRate = CONST.BGM_FADE_SPEED_RATE_HIGH)
 	{
 		if (!bgmDic.ContainsKey(bgmName))
 		{
@@ -88,7 +82,7 @@ public class AudioManager : BaseManager<AudioManager>
 			AttachBGMSource.Play();
 		}
 		//When a different BGM is playing, fade out the BGM that is playing before playing the next one.
-        //Through when the same BGM is playing
+        //Ignore when the same BGM is playing
 		else if (AttachBGMSource.clip.name != bgmName)
 		{
 			nextBGMName = bgmName;
@@ -97,7 +91,7 @@ public class AudioManager : BaseManager<AudioManager>
 
 	}
 
-	public void FadeOutBGM(float fadeSpeedRate = BGM_FADE_SPEED_RATE_LOW)
+	public void FadeOutBGM(float fadeSpeedRate = CONST.BGM_FADE_SPEED_RATE_LOW)
 	{
 		bgmFadeSpeedRate = fadeSpeedRate;
 		isFadeOut = true;
@@ -116,7 +110,7 @@ public class AudioManager : BaseManager<AudioManager>
 		if (AttachBGMSource.volume <= 0)
 		{
 			AttachBGMSource.Stop();
-			AttachBGMSource.volume = PlayerPrefs.GetFloat(BGM_VOLUME_KEY, BGM_VOLUME_DEFULT);
+			AttachBGMSource.volume = ObscuredPrefs.GetFloat(CONST.BGM_VOLUME_KEY, CONST.BGM_VOLUME_DEFAULT);
 			isFadeOut = false;
 
 			if (!string.IsNullOrEmpty(nextBGMName))
@@ -129,12 +123,36 @@ public class AudioManager : BaseManager<AudioManager>
 	public void ChangeBGMVolume(float BGMVolume)
 	{
 		AttachBGMSource.volume = BGMVolume;
-		PlayerPrefs.SetFloat(BGM_VOLUME_KEY, BGMVolume);
+        if (ObscuredPrefs.HasKey(CONST.BGM_VOLUME_KEY))
+        {
+			ObscuredPrefs.SetFloat(CONST.BGM_VOLUME_KEY, BGMVolume);
+		}
 	}
 
 	public void ChangeSEVolume(float SEVolume)
 	{
 		AttachSESource.volume = SEVolume;
-		PlayerPrefs.SetFloat(SE_VOLUME_KEY, SEVolume);
+		if (ObscuredPrefs.HasKey(CONST.SE_VOLUME_KEY))
+        {
+			ObscuredPrefs.SetFloat(CONST.SE_VOLUME_KEY, SEVolume);
+		}	
+	}
+
+	public void MuteBGM(bool isMute)
+    {
+		AttachBGMSource.mute = isMute;
+        if (ObscuredPrefs.HasKey(CONST.BGM_MUTE_KEY))
+		{
+			ObscuredPrefs.SetBool(CONST.BGM_MUTE_KEY, isMute);
+		}
+	}
+
+	public void MuteSE(bool isMute)
+	{
+		AttachSESource.mute = isMute;
+		if (ObscuredPrefs.HasKey(CONST.SE_MUTE_KEY))
+        {
+			ObscuredPrefs.SetBool(CONST.SE_MUTE_KEY, isMute);
+		}
 	}
 }

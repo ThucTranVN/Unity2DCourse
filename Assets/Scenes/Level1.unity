@@ -42297,6 +42297,14 @@ PrefabInstance:
       propertyPath: jumpEffect
       value: 
       objectReference: {fileID: 1977804561}
+    - target: {fileID: 4422950997014706705, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
+      propertyPath: noFriction
+      value: 
+      objectReference: {fileID: 6200000, guid: 77292fd83ee234bfbba27d48ca28c1f3, type: 2}
+    - target: {fileID: 4422950997014706705, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
+      propertyPath: highFriction
+      value: 
+      objectReference: {fileID: 6200000, guid: 1fd8342c75e7143a6bb82e08592a0f25, type: 2}
     - target: {fileID: 4422950997014706707, guid: e1ed3868d549a4e6e9b3044a13c028f3, type: 3}
       propertyPath: numberOfCherries
       value: 

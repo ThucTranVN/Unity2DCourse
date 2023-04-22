@@ -29,7 +29,7 @@ public class LoadingPanel : MonoBehaviour
             {
                 loadingSlider.value = 1f;
                 loadingPercentText.SetText("Press the space bar to continue");
-                if (Input.GetKeyDown(KeyCode.Space))
+                if (Input.GetKeyDown(KeyCode.Space) || Input.touchCount == 1)
                 {
                     asyncOperation.allowSceneActivation = true;
                     if (UIManager.HasInstance)

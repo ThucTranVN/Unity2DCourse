@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GamePanel : MonoBehaviour
 {
@@ -10,13 +9,21 @@ public class GamePanel : MonoBehaviour
     private TextMeshProUGUI numberOfCherries;
     [SerializeField]
     private TextMeshProUGUI timeText;
+    [SerializeField]
+    private GameObject jumpButton;
     public TextMeshProUGUI NumberOfCherries => numberOfCherries;
+    public VariableJoystick variableJoystick;
     private float timeRemaining;
     private bool timerIsRunning = false;
 
     private void Awake()
     {
         SetTimeRemain(120);
+    }
+
+    private void Start()
+    {
+        Invoke("DelayLoad", 0.3f);
     }
 
     private void OnEnable()
@@ -71,5 +78,11 @@ public class GamePanel : MonoBehaviour
     public void SetTimeRemain(float v)
     {
         timeRemaining = v;
+    }
+
+    private void DelayLoad()
+    {
+        variableJoystick.gameObject.SetActive(true);
+        jumpButton.SetActive(true);
     }
 }

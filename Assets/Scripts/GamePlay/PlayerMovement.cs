@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private float counter;
     private float dirX;
     private bool isNotDoubleJump;
+    private bool isJumping;
 
     private bool canDash = true;
     private bool isDashing;
@@ -44,6 +45,9 @@ public class PlayerMovement : MonoBehaviour
 
     private enum MovementState { Idle, Running, Jumping, Falling }
     private MovementState movementState;
+
+    [SerializeField] PhysicsMaterial2D noFriction;
+    [SerializeField] PhysicsMaterial2D highFriction;
 
     private void Awake()
     {
@@ -76,8 +80,16 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        dirX = Input.GetAxisRaw("Horizontal");
-
+        //dirX = Input.GetAxisRaw("Horizontal");
+        dirX = UIManager.Instance.GamePanel.variableJoystick.Direction.x;
+        if(dirX != 0)
+        {
+            rigidBody.sharedMaterial = noFriction;
+        }
+        else
+        {
+            rigidBody.sharedMaterial = highFriction;
+        }
         Jumping();
 
         UpdateAnimations();
@@ -111,14 +123,26 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    public void SetJump(bool value)
+    {
+        isJumping = value;
+    }
+
+    public void SetDoubleJum(bool value)
+    {
+        isNotDoubleJump = !value;
+    }
+
     private void Jumping()
     {
-        if (IsGrounded() && !Input.GetButton("Jump"))
-        {
+        //if (IsGrounded() && !Input.GetButton("Jump"))
+        if (IsGrounded() && !isJumping)
+        { 
             isNotDoubleJump = false;
         }
 
-        if (Input.GetButtonDown("Jump"))
+        //if (Input.GetButtonDown("Jump"))
+        if (isJumping)
         {
             if (IsGrounded() || isNotDoubleJump)
             {
